@@ -19,7 +19,7 @@ app.config['MAIL_SERVER'] = 'smtp.mail.ru'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = 'gorunum@mail.ru'
-app.config['MAIL_PASSWORD'] = '507425123mama'
+app.config['MAIL_PASSWORD'] = 'uCEbshNMx3uSV2YyEXNv'
 app.config['MAIL_DEFAULT_SENDER'] = 'gorunum@mail.ru'
 
 mail = Mail(app)
