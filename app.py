@@ -133,11 +133,6 @@ def submit_form():
 
     return jsonify({'message': 'Заявка отправлена и сохранена', 'file_url': file_url}), 200  # ✅ Теперь return на правильном уровне
 
-mail.send(msg)
-
-    return jsonify({'message': 'Заявка отправлена и сохранена', 'file_url': file_url}), 200  # ✅ Теперь return внутри функции
-
-
 from flask import render_template
 
 # Главная страница с формой
