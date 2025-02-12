@@ -93,14 +93,12 @@ def submit_form():
         return jsonify({'error': 'Файл обязателен'}), 400
 
     filename = secure_filename(file.filename)
-    file_path = filename
+    file_path = os.path.join("uploads", filename)  # Сохраняем в папку uploads
+    os.makedirs("uploads", exist_ok=True)  # Создаём папку, если её нет
     file.save(file_path)
 
     # Загружаем файл в Google Drive
     file_url = upload_to_drive(file_path, filename)
-
-    # Удаляем временный файл
-    os.remove(file_path)
 
     # Сохраняем в базе данных
     new_order = Order(store_name=store_name, order_number=order_number, comment=comment, file_url=file_url)
@@ -130,6 +128,7 @@ def submit_form():
 
     msg.reply_to = "support@wolt.com"
     mail.send(msg)
+    os.remove(file_path)
 
     return jsonify({'message': 'Заявка отправлена и сохранена', 'file_url': file_url}), 200  # ✅ Теперь return на правильном уровне
 
