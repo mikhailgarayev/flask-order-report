@@ -1,0 +1,9 @@
+# Исключаем системные файлы
+*.log
+*.pyc
+__pycache__/
+.DS_Store
+venv/
+.env
+uploads/
+credentials.json  # Не загружай API-ключ в GitHub!
