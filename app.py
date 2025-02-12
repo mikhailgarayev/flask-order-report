@@ -25,12 +25,16 @@ app.config['MAIL_DEFAULT_SENDER'] = 'ratemikhail@gmail.com'
 mail = Mail(app)
 
 # Google Drive API
+import json
+import os
+
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
-SERVICE_ACCOUNT_FILE = 'credentials.json'  # Файл ключа сервисного аккаунта
 FOLDER_ID = '1a6rYC0tMjKgIUnrIdrKTO59QUML1VDsA'  # ID твоей папки на Google Drive
 
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+# Читаем API-ключ из переменной окружения GOOGLE_CREDENTIALS
+SERVICE_ACCOUNT_INFO = json.loads(os.environ.get("GOOGLE_CREDENTIALS"))
+credentials = service_account.Credentials.from_service_account_info(
+SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 drive_service = build('drive', 'v3', credentials=credentials)
 
 from datetime import datetime, timedelta
