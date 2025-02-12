@@ -106,7 +106,7 @@ def submit_form():
     db.session.commit()
 
     # Отправка email
-    msg = Message(f"New video from {store_name}", recipients=["woltvideo@gmail.com"])
+    msg = Message(f"{store_name} #{order_number}", recipients=["woltvideo@gmail.com"])
     msg.body = f"""
     Venue name: {store_name}
     Order number: {order_number}
