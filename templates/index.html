@@ -2,25 +2,106 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Форма заказа</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отправка заказа | Wolt Style</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F5F7FA;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 {
+            color: #009DE0;
+            margin-bottom: 15px;
+        }
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1A1A1A;
+            text-align: left;
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #DDE2E8;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #FAFAFA;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: linear-gradient(135deg, #009DE0, #007BBE);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #0086C1, #005F9E);
+        }
+        .file-input {
+            background: white;
+            border: 2px dashed #009DE0;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .file-input input {
+            display: none;
+        }
+        .file-input label {
+            color: #009DE0;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-    <h2>Форма отправки заказа</h2>
-    <form id="orderForm" enctype="multipart/form-data">
-        <label>Название заведения:</label>
-        <input type="text" name="store_name" required><br><br>
-        
-        <label>Номер заказа:</label>
-        <input type="text" name="order_number" required><br><br>
-        
-        <label>Комментарий:</label>
-        <textarea name="comment"></textarea><br><br>
-        
-        <label>Прикрепить файл:</label>
-        <input type="file" name="file" required><br><br>
+    <div class="container">
+        <h2>Video göndər</h2>
+        <form id="orderForm" enctype="multipart/form-data">
+            <label>Məkanınızın adı:</label>
+            <input type="text" name="store_name" required placeholder="Məkanınızın adı">
 
-        <button type="submit">Отправить</button>
-    </form>
+            <label>Sifariş nömrəsi:</label>
+            <input type="text" name="order_number" required placeholder="Sifarişin nömrəsi">
+
+            <label>Əlavə şərh:</label>
+            <textarea name="comment" placeholder="Şərh əlavə edin (mütləq deyil)"></textarea>
+
+            <label>Прикрепить файл:</label>
+            <div class="file-input">
+                <input type="file" name="file" id="fileUpload" required>
+                <label for="fileUpload">📂 Fayl seçin</label>
+            </div>
+
+            <button type="submit">Göndər</button>
+        </form>
+    </div>
 
     <script>
         document.getElementById('orderForm').onsubmit = async function(event) {
