@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Отправка заказа | Wolt Style</title>
+    <title>Wolt Video Göndərilməsi</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <style>
         body {
@@ -78,6 +78,24 @@
             cursor: pointer;
             font-weight: 600;
         }
+        /* Стили для анимации загрузки */
+        .loader {
+            display: none;
+            margin-top: 15px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 157, 224, 0.2);
+            border-left-color: #009DE0;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -85,13 +103,13 @@
         <h2>Video göndər</h2>
         <form id="orderForm" enctype="multipart/form-data">
             <label>Məkanınızın adı:</label>
-            <input type="text" name="store_name" required placeholder="Məkanınızın adı">
+            <input type="text" name="store_name" required placeholder="Məkanınızın adını daxil edin">
 
             <label>Sifariş nömrəsi:</label>
-            <input type="text" name="order_number" required placeholder="Sifarişin nömrəsi">
+            <input type="text" name="order_number" required placeholder="Sifariş nömrəsini daxil edin">
 
             <label>Əlavə şərh:</label>
-            <textarea name="comment" placeholder="Şərh əlavə edin (mütləq deyil)"></textarea>
+            <textarea name="comment" placeholder="Əlavə şərh"></textarea>
 
             <label>Прикрепить файл:</label>
             <div class="file-input">
@@ -99,22 +117,45 @@
                 <label for="fileUpload">📂 Fayl seçin</label>
             </div>
 
-            <button type="submit">Göndər</button>
+            <button type="submit">Отправить</button>
+
+            <!-- Анимация загрузки -->
+            <div class="loader">
+                <div class="spinner"></div>
+                <p>Загрузка...</p>
+            </div>
         </form>
     </div>
 
     <script>
         document.getElementById('orderForm').onsubmit = async function(event) {
             event.preventDefault();
+
             let formData = new FormData(this);
+            let loader = document.querySelector('.loader');
+            let button = document.querySelector('button');
 
-            let response = await fetch('/submit', {
-                method: 'POST',
-                body: formData
-            });
+            // Показываем анимацию загрузки и отключаем кнопку
+            loader.style.display = 'block';
+            button.disabled = true;
+            button.innerText = "Загрузка...";
 
-            let result = await response.json();
-            alert(result.message || result.error);
+            try {
+                let response = await fetch('/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                let result = await response.json();
+                alert(result.message || result.error);
+            } catch (error) {
+                alert("Xəta baş verdi!");
+            }
+
+            // Скрываем анимацию и возвращаем кнопку в нормальный вид
+            loader.style.display = 'none';
+            button.disabled = false;
+            button.innerText = "Göndər";
         };
     </script>
 </body>
