@@ -15,6 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Настройки почты (Gmail SMTP)
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024  # 1 ГБ
 app.config['MAIL_SERVER'] = 'smtp.mail.ru'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
@@ -107,6 +108,13 @@ class Order(db.Model):
 with app.app_context():
     db.create_all()
 
+import threading
+
+def process_file_async(file_path, filename):
+    """Функция загружает файл в фоне, чтобы Render не убивал процесс."""
+    thread = threading.Thread(target=upload_to_drive, args=(file_path, filename))
+    thread.start()
+
 # Обработчик формы
 @app.route('/submit', methods=['POST'])
 def submit_form():
@@ -128,7 +136,9 @@ def submit_form():
     file.save(file_path)
 
     # Загружаем файл в Google Drive
-    file_url = upload_to_drive(file_path, filename)
+    process_file_async(file_path, filename)
+    file_url = "Uploading file to Drive..."  # Временная заглушка, пока идёт загрузка
+
 
     # Сохраняем в базе данных
     new_order = Order(store_name=store_name, order_number=order_number, comment=comment, file_url=file_url)
