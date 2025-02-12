@@ -109,19 +109,22 @@ def submit_form():
 
     # Отправка email
     msg = Message(f"New video from {store_name}", recipients=["woltvideo@gmail.com"])
-    msg.body = f"Venue name: {store_name}\nOrder number: {order_number}\nComment: {comment or 'left blank'}"
+msg.body = f"Venue name: {store_name}\nOrder number: {order_number}\nComment: {comment or 'left blank'}"
 
-    # Добавляем заголовки, чтобы письмо не ушло в спам
-    msg.headers = {
-        "X-Mailer": "Flask-Mail",
-        "X-Priority": "3",
-        "Precedence": "bulk",
-    }
+# Прикрепляем файл к email
+with open(file_path, "rb") as fp:
+    msg.attach(filename, "application/octet-stream", fp.read())
 
-    # Добавляем "Reply-To", чтобы Mail.ru не считал письмо подозрительным
-    msg.reply_to = "support@wolt.com"
+# Добавляем заголовки, чтобы письмо не ушло в спам
+msg.headers = {
+    "X-Mailer": "Flask-Mail",
+    "X-Priority": "3",
+    "Precedence": "bulk",
+}
 
-    mail.send(msg)
+msg.reply_to = "support@wolt.com"
+mail.send(msg)
+
 
     return jsonify({'message': 'Заявка отправлена и сохранена', 'file_url': file_url}), 200  # ✅ Теперь return внутри функции
 
