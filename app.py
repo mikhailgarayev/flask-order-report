@@ -29,7 +29,7 @@ import json
 import os
 
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
-FOLDER_ID = '1a6rYC0tMjKgIUnrIdrKTO59QUML1VDsA'  # ID твоей папки на Google Drive
+FOLDER_ID = '1FPnyzcyYvQn0fTNpdVf-PazNJBUARpni'  # ID твоей папки на Google Drive 
 
 # Читаем API-ключ из переменной окружения GOOGLE_CREDENTIALS
 SERVICE_ACCOUNT_INFO = json.loads(os.environ.get("GOOGLE_CREDENTIALS"))
