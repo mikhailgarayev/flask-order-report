@@ -124,7 +124,7 @@ msg.reply_to = "support@wolt.com"
 mail.send(msg)
 
 
-    return jsonify({'message': 'Заявка отправлена и сохранена', 'file_url': file_url}), 200
+return jsonify({'message': 'Заявка отправлена и сохранена', 'file_url': file_url}), 200
 from flask import render_template
 
 # Главная страница с формой
