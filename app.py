@@ -109,7 +109,13 @@ def submit_form():
 
     # Отправка email
     msg = Message(f"New video from {store_name}", recipients=["woltvideo@gmail.com"])
-msg.body = f"Venue name: {store_name}\nOrder number: {order_number}\nComment: {comment or 'left blank'}"
+msg.body = f"""
+Venue name: {store_name}
+Order number: {order_number}
+Comment: {comment or 'left blank'}
+
+📂 Google Drive Link: {file_url}
+"""
 
 # Прикрепляем файл к email
 with open(file_path, "rb") as fp:
@@ -124,7 +130,6 @@ msg.headers = {
 
 msg.reply_to = "support@wolt.com"
 mail.send(msg)
-
 
     return jsonify({'message': 'Заявка отправлена и сохранена', 'file_url': file_url}), 200  # ✅ Теперь return внутри функции
 
