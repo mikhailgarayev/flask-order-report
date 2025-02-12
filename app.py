@@ -109,26 +109,30 @@ def submit_form():
 
     # Отправка email
     msg = Message(f"New video from {store_name}", recipients=["woltvideo@gmail.com"])
-msg.body = f"""
-Venue name: {store_name}
-Order number: {order_number}
-Comment: {comment or 'left blank'}
+    msg.body = f"""
+    Venue name: {store_name}
+    Order number: {order_number}
+    Comment: {comment or 'left blank'}
 
-📂 Google Drive Link: {file_url}
-"""
+    📂 Google Drive Link: {file_url}
+    """
 
-# Прикрепляем файл к email
-with open(file_path, "rb") as fp:
-    msg.attach(filename, "application/octet-stream", fp.read())
+    # Прикрепляем файл к email
+    with open(file_path, "rb") as fp:
+        msg.attach(filename, "application/octet-stream", fp.read())
 
-# Добавляем заголовки, чтобы письмо не ушло в спам
-msg.headers = {
-    "X-Mailer": "Flask-Mail",
-    "X-Priority": "3",
-    "Precedence": "bulk",
-}
+    # Добавляем заголовки, чтобы письмо не ушло в спам
+    msg.headers = {
+        "X-Mailer": "Flask-Mail",
+        "X-Priority": "3",
+        "Precedence": "bulk",
+    }
 
-msg.reply_to = "support@wolt.com"
+    msg.reply_to = "support@wolt.com"
+    mail.send(msg)
+
+    return jsonify({'message': 'Заявка отправлена и сохранена', 'file_url': file_url}), 200  # ✅ Теперь return на правильном уровне
+
 mail.send(msg)
 
     return jsonify({'message': 'Заявка отправлена и сохранена', 'file_url': file_url}), 200  # ✅ Теперь return внутри функции
