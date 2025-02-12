@@ -27,6 +27,35 @@ mail = Mail(app)
 # Google Drive API
 import json
 import os
+import shutil
+
+MAX_STORAGE_MB = 10000  # 10 ГБ
+
+def get_folder_size(folder):
+    """Подсчитывает общий размер папки в мегабайтах."""
+    total_size = 0
+    for dirpath, _, filenames in os.walk(folder):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            if os.path.exists(fp):
+                total_size += os.path.getsize(fp)
+    return total_size / (1024 * 1024)  # Преобразуем в MB
+
+def cleanup_storage(folder="uploads"):
+    """Удаляет старые файлы, если размер хранилища превышает лимит."""
+    if not os.path.exists(folder):
+        return
+    
+    while get_folder_size(folder) > MAX_STORAGE_MB:
+        files = [(f, os.path.getctime(os.path.join(folder, f))) for f in os.listdir(folder)]
+        files.sort(key=lambda x: x[1])  # Сортируем по дате создания (старые файлы первыми)
+
+        if files:
+            oldest_file = os.path.join(folder, files[0][0])
+            print(f"🗑 Удаляем файл {oldest_file}, так как хранилище заполнено!")
+            os.remove(oldest_file)
+        else:
+            break
 
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 FOLDER_ID = '1FPnyzcyYvQn0fTNpdVf-PazNJBUARpni'  # ID твоей папки на Google Drive 
@@ -94,6 +123,7 @@ def submit_form():
 
     filename = secure_filename(file.filename)
     file_path = os.path.join("uploads", filename)  # Сохраняем в папку uploads
+    cleanup_storage("uploads") # Проверяем, если хранилище заполнено, удаляем старые файлы
     os.makedirs("uploads", exist_ok=True)  # Создаём папку, если её нет
     file.save(file_path)
 
