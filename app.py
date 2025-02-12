@@ -140,8 +140,27 @@ def index():
     return render_template('index.html')  # Загружаем HTML-форму
 
 
+import threading
+import requests
+import time
+
+def keep_alive():
+    """Функция отправляет запросы к сайту, чтобы Render не засыпал"""
+    while True:
+        try:
+            requests.get("https://flask-order-report.onrender.com")
+            print("✅ Keep-alive запрос отправлен!")
+        except Exception as e:
+            print("❌ Ошибка при пинге сайта:", e)
+        time.sleep(300)  # 300 секунд = 5 минут
+
+# Запускаем keep_alive в отдельном потоке
+thread = threading.Thread(target=keep_alive, daemon=True)
+thread.start()
+
 if __name__ == '__main__':
     print("🚀 Запуск сервера...")
     delete_old_files(days=7)  # Удаляем файлы старше 7 дней
     app.run(debug=True)
+
 
