@@ -15,12 +15,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Настройки почты (Gmail SMTP)
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'ratemikhail@gmail.com'  # Замени на свою почту
-app.config['MAIL_PASSWORD'] = 'jyjg lajr ksuc kjes'  # Вставь пароль от почты
-app.config['MAIL_DEFAULT_SENDER'] = 'ratemikhail@gmail.com'
+app.config['MAIL_SERVER'] = 'smtp.mail.ru'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'gorunum@mail.ru'
+app.config['MAIL_PASSWORD'] = '507425123mama'
+app.config['MAIL_DEFAULT_SENDER'] = 'gorunum@mail.ru'
 
 mail = Mail(app)
 
@@ -108,7 +108,7 @@ def submit_form():
     db.session.commit()
 
     # Отправка email
-    msg = Message(f"New video from {store_name}", recipients=["ratemikhail@gmail.com"])
+    msg = Message(f"New video from {store_name}", recipients=["woltvideo@gmail.com"])
     msg.body = f"Venue name: {store_name}\nOrder number: {order_number}\nComment: {comment or 'Left blank'}\nLink to file: {file_url}"
     mail.send(msg)
 
