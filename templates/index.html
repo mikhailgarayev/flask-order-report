@@ -23,6 +23,7 @@
             width: 100%;
             max-width: 400px;
             text-align: center;
+	    box-sizing: border-box;
         }
         h2 {
             color: #009DE0;
@@ -44,6 +45,8 @@
             border-radius: 8px;
             font-size: 14px;
             background-color: #FAFAFA;
+	    resize: none;
+	    box-sizing: border-box;
         }
         button {
             width: 100%;
@@ -111,18 +114,18 @@
             <label>Əlavə şərh:</label>
             <textarea name="comment" placeholder="Əlavə şərh"></textarea>
 
-            <label>Прикрепить файл:</label>
+            <label>Fayl seçin:</label>
             <div class="file-input">
                 <input type="file" name="file" id="fileUpload" required>
                 <label for="fileUpload">📂 Fayl seçin</label>
             </div>
 
-            <button type="submit">Отправить</button>
+            <button type="submit">Göndər</button>
 
             <!-- Анимация загрузки -->
             <div class="loader">
                 <div class="spinner"></div>
-                <p>Загрузка...</p>
+                <p>Yüklənir...</p>
             </div>
         </form>
     </div>
@@ -138,7 +141,7 @@
             // Показываем анимацию загрузки и отключаем кнопку
             loader.style.display = 'block';
             button.disabled = true;
-            button.innerText = "Загрузка...";
+            button.innerText = "Yüklənir...";
 
             try {
                 let response = await fetch('/submit', {
