@@ -12,6 +12,15 @@
         height: 100vh;
         margin: 0;
     }
+   .background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Затемнение (чем выше 0.4, тем темнее) */
+    z-index: -1;
+}
 </style>
 
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -33,7 +42,7 @@
             background: white;
             padding: 20px 30px;
             border-radius: 12px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
             width: 100%;
             max-width: 400px;
             text-align: center;
@@ -116,6 +125,8 @@
     </style>
 </head>
 <body>
+    <div class="background-overlay"></div>
+
     <div class="container">
         <h2>Video göndər</h2>
         <form id="orderForm" enctype="multipart/form-data">
