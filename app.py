@@ -136,9 +136,7 @@ def submit_form():
     file.save(file_path)
 
     # Загружаем файл в Google Drive
-    process_file_async(file_path, filename)
-    file_url = "Uploading file to Drive..."  # Временная заглушка, пока идёт загрузка
-
+    file_url = process_file_sync(file_path, filename)  # Ждём, пока загрузка завершится
 
     # Сохраняем в базе данных
     new_order = Order(store_name=store_name, order_number=order_number, comment=comment, file_url=file_url)
