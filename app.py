@@ -115,6 +115,10 @@ def process_file_async(file_path, filename):
     thread = threading.Thread(target=upload_to_drive, args=(file_path, filename))
     thread.start()
 
+def process_file_sync(file_path, filename):
+    """Синхронная загрузка файла в Google Drive и возврат ссылки"""
+    return upload_to_drive(file_path, filename)
+
 # Обработчик формы
 @app.route('/submit', methods=['POST'])
 def submit_form():
